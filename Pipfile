@@ -4,8 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pent = {path = ".", editable = true}
 
 [dev-packages]
+readme-renderer = "*"
 
 [requires]
 python_version = "3.6"
+
+[scripts]
+check-readme = "python setup.py check -r -s"
+pent = "python -m pent"
