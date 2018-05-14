@@ -53,23 +53,26 @@ the version of it) you want to use. It does not guess.
 
 Pent also tries to use the built-in venv to create the environment if possible.
 
-Install dependencies
---------------------
+Manage dependencies
+-------------------
 
-This part is the same as Pipenv. Call ``sync`` to install dependencies from a
-Pipfile, ``install``/``uninstall`` to add/remove packages.
+This part is the same as Pipenv. Call ``lock`` to resolve Pipfile’s
+specifications into Pipfile.lock, ``sync`` to install dependencies from
+Pipfile.lock, ``install``/``uninstall`` to add/remove packages.
 
 Pent adds two aliases, ``add`` and ``remove``, because I think the naming makes
 more sense. They work exactly the same as ``install`` and ``uninstall``.
 
-Note that ``install`` without arguments does not work in Pent. Use ``sync``
-instead.
+Note that ``install`` without arguments does not work in Pent. Use ``lock``
+and  ``sync`` instead.
+
+``update`` is removed. Use ``lock`` and  ``sync`` instead.
 
 Other commands
 --------------
 
-``lock``, ``run``, ``check``, ``graph``, and ``clean`` are identical to their
-Pipenv counterparts (Pent simply calls them).
+``run``, ``check``, ``graph``, and ``clean`` are identical to their Pipenv
+counterparts (Pent simply calls them).
 
 ``shell`` works a little better than Pipenv’s because Pent try to detect your
 current shell instead of depending on the ``SHELL`` variable, and does not
@@ -78,13 +81,6 @@ unless you explicitly set the environment variable ``PIPENV_SHELL_FANCY`` to an
 empty string.
 
 ``where`` works as a combination of ``pipenv --where`` and ``pipenv --venv``.
-
-Removed commands
-----------------
-
-``update`` is removed. You can achieve the same effect by first running
-``lock`` to update dependency versions in Pipfile.lock, and ``sync`` to apply
-the new versions.
 
 
 Words of warning
