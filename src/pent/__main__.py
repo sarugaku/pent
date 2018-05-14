@@ -32,14 +32,22 @@ def init(**kwargs):
     init(**kwargs)
 
 
+@cli.command(short_help="Resolves dependencies from Pipfile into Pipfile.lock")
+@click.option('--clear', is_flag=True, default=False)
+@click.option('--pre', is_flag=True, default=False)
+@click.option('--keep-outdated', is_flag=True, default=False)
+def lock(**kwargs):
+    from .operations.misc import lock
+    lock(**kwargs)
+
+
 @cli.command(short_help="Installs all packages specified in Pipfile.lock.")
 @click.option('--dev', is_flag=True, default=False)
 @click.option('--clear', is_flag=True, default=False)
 @click.option('--sequential', is_flag=True, default=False)
 def sync(**kwargs):
-    from . import _pipenv
-    # HACK: The second argument is not meaningful. It is a Pipenv bug.
-    _pipenv.core.do_sync(click.get_current_context(), None, **kwargs)
+    from .operations.misc import sync
+    sync(**kwargs)
 
 
 if __name__ == '__main__':

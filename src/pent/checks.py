@@ -6,7 +6,7 @@ import click
 from . import _pipenv
 
 
-def _pipfile_required(f):
+def pipfile_required(f):
 
     @functools.wraps(f)
     def wrapped(*args, **kwargs):
@@ -18,7 +18,7 @@ def _pipfile_required(f):
     return wrapped
 
 
-def _venv_required(f):
+def venv_required(f):
 
     @functools.wraps(f)
     def wrapped(*args, **kwargs):

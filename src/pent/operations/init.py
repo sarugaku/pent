@@ -45,7 +45,7 @@ def _find_venv_python(venv):
     raise ValueError(f'no python found in environment')
 
 
-@checks._pipfile_required
+@checks.pipfile_required
 def init(python, prompt, clear):
     project_root = pathlib.Path(_pipenv.get_project().project_directory)
     venv_path = project_root.joinpath('.venv')
