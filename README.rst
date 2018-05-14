@@ -3,8 +3,8 @@ Pent: Alternative Command Line Interface for Pipenv
 ===================================================
 
 
-Pent is a thin wrapper around Pipenv_ that provides an alternative set or
-commands for the user to work with it. It does not provide any features
+Pent is a thin wrapper around Pipenv_ that provides an alternative set of
+commands for the user to work with. It does not provide any features
 (everything is backed by Pipenv), but only wrap them so it fits a different
 kind of brains.
 
