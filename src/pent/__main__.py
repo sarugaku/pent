@@ -2,10 +2,10 @@ import pathlib
 
 import click
 
-from ._click import ExecutablePath
+from ._click import AliasedGroup, ExecutablePath
 
 
-@click.group()
+@click.group(cls=AliasedGroup)
 def cli():
     pass
 
@@ -39,6 +39,24 @@ def init(**kwargs):
 def lock(**kwargs):
     from .operations.misc import lock
     lock(**kwargs)
+
+
+@cli.command(
+    short_help="Installs provided packages and adds them to Pipfile.",
+    context_settings={
+        'ignore_unknown_options': True,
+        'allow_extra_args': True,
+    },
+)
+def install(**kwargs):
+    raise NotImplementedError('TODO')
+
+
+@cli.command(
+    short_help="Uninstalls provided packages and removes them from Pipfile.",
+)
+def uninstall(**kwargs):
+    raise NotImplementedError('TODO')
 
 
 @cli.command(short_help="Outputs project and environment information.")
