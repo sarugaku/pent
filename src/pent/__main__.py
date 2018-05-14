@@ -59,6 +59,19 @@ def uninstall(**kwargs):
     raise NotImplementedError('TODO')
 
 
+@cli.command(
+    short_help="Spawns a shell within the virtual environment.",
+    context_settings={
+        'ignore_unknown_options': True,
+        'allow_extra_args': True,
+    },
+)
+@click.option('--anyway', is_flag=True, default=False)
+@click.argument('shell_args', nargs=-1)
+def shell(**kwargs):
+    raise NotImplementedError('TODO')
+
+
 @cli.command(short_help="Outputs project and environment information.")
 def where():
     from .operations.misc import where
