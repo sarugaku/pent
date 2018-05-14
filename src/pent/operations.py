@@ -68,7 +68,10 @@ def init(python, prompt, clear):
     if _supports_venv(python):
         args = [python, '-m', 'venv'] + args
     else:
-        args = [sys.executable, '-m', 'virtualenv', '--quiet'] + args
+        args = [
+            sys.executable, '-m', 'virtualenv',
+            '--quiet', '--python', python,
+        ] + args
 
     click.echo(f'Creating new virtual environment at {venv_path}', err=True)
     click.echo(f'Using {python}', err=True)
