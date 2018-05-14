@@ -1,4 +1,3 @@
-import functools
 import pathlib
 import subprocess
 import sys
@@ -6,19 +5,7 @@ import sys
 import click
 import virtualenv
 
-from . import _pipenv
-
-
-def _pipfile_required(f):
-
-    @functools.wraps(f)
-    def wrapped(*args, **kwargs):
-        if not _pipenv.get_project().pipfile_exists:
-            click.echo('Pipfile not found! You need to run "pent new" first.')
-            click.get_current_context().exit(1)
-        return f(*args, **kwargs)
-
-    return wrapped
+from . import _pipenv, checks
 
 
 def new():
@@ -59,7 +46,7 @@ def _fix_activate_this(venv):
             activate_this.write_text(virtualenv.ACTIVATE_THIS)
 
 
-def _find_env_python(venv):
+def _find_venv_python(venv):
     for path in POSSIBLE_ENV_PYTHON:
         full_path = venv.joinpath(path)
         if full_path.is_file():
@@ -67,7 +54,7 @@ def _find_env_python(venv):
     raise ValueError(f'no python found in environment')
 
 
-@_pipfile_required
+@checks._pipfile_required
 def init(python, prompt, clear):
     project_root = pathlib.Path(_pipenv.get_project().project_directory)
     venv_path = project_root.joinpath('.venv')
@@ -99,7 +86,7 @@ def init(python, prompt, clear):
 
     click.echo(f'Making sure pip and Setuptools are up-to-date', err=True)
     subprocess.check_call([
-        str(_find_env_python(venv_path)), '-m', 'pip', 'install',
+        str(_find_venv_python(venv_path)), '-m', 'pip', 'install',
         '--upgrade', '--disable-pip-version-check', '--quiet',
         'setuptools', 'pip',
     ])
