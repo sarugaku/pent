@@ -29,7 +29,7 @@ class ExecutablePath(click.Path):
                 for path in os.environ['PATH'].split(os.pathsep):
                     full_path = pathlib.Path(path, choice)
                     if full_path.is_file():
-                        val = str(full_path)
+                        val = str(full_path.resolve())
                         break
         return super().convert(val, param, ctx)
 
