@@ -4,6 +4,7 @@ import subprocess
 import sys
 
 import click
+import virtualenv
 
 from . import _pipenv
 
@@ -35,17 +36,34 @@ def _supports_venv(executable):
     major = int(major)
     minor = int(minor)
     if major > 3 or major == 3 and minor >= 4:
-        return
+        return True
+    return False
+
+
+POSSIBLE_ENV_PYTHON = [
+    pathlib.Path('bin', 'python'),
+    pathlib.Path('Scripts', 'python.exe'),
+]
+
+
+def _fix_activate_this(venv):
+    """Pipenv relies on activate_this.py, but venv does not have this file.
+
+    Fortunately virtualenv's version "just works", so let's grab it.
+    """
+    for path in POSSIBLE_ENV_PYTHON:
+        full_path = venv.joinpath(path)
+        if full_path.is_file():
+            activate_this = full_path.with_name('activate_this.py')
+            click.echo(f'Writing {activate_this}')
+            activate_this.write_text(virtualenv.ACTIVATE_THIS)
 
 
 def _find_env_python(venv):
-    possibilities = [
-        venv.joinpath('bin', 'python'),
-        venv.joinpath('Scripts', 'python.exe'),
-    ]
-    for path in possibilities:
-        if path.is_file():
-            return path
+    for path in POSSIBLE_ENV_PYTHON:
+        full_path = venv.joinpath(path)
+        if full_path.is_file():
+            return full_path
     raise ValueError(f'no python found in environment')
 
 
@@ -65,17 +83,19 @@ def init(python, prompt, clear):
         prompt = project_root.name
     args.extend(['--prompt', prompt])
 
-    if _supports_venv(python):
-        args = [python, '-m', 'venv'] + args
+    uses_venv = _supports_venv(python)
+    backend = 'venv' if uses_venv else 'virtualenv'
+    click.echo(f'Creating new {backend} at {venv_path}', err=True)
+    click.echo(f'Using {python}', err=True)
+
+    if uses_venv:
+        subprocess.check_call([python, '-m', 'venv'] + args)
+        _fix_activate_this(venv_path)
     else:
-        args = [
+        subprocess.check_call([
             sys.executable, '-m', 'virtualenv',
             '--quiet', '--python', python,
-        ] + args
-
-    click.echo(f'Creating new virtual environment at {venv_path}', err=True)
-    click.echo(f'Using {python}', err=True)
-    subprocess.check_call(args)
+        ] + args)
 
     click.echo(f'Making sure pip and Setuptools are up-to-date', err=True)
     subprocess.check_call([
