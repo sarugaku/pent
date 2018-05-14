@@ -5,16 +5,7 @@ import sys
 import click
 import virtualenv
 
-from . import _pipenv, checks
-
-
-def new():
-    pipfile_path = pathlib.Path.cwd().joinpath('Pipfile').resolve()
-    if pipfile_path.exists():
-        click.echo(f'Pipfile exists at {pipfile_path}', err=True)
-        return
-    click.echo(f'Creating new Pipfile at {pipfile_path}', err=True)
-    pipfile_path.touch(exist_ok=False)
+from pent import _pipenv, checks
 
 
 def _supports_venv(executable):
