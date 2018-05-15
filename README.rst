@@ -76,9 +76,9 @@ counterparts (Pent simply calls them).
 
 ``shell`` works a little better than Pipenv’s because Pent try to detect your
 current shell instead of depending on the ``SHELL`` variable, and does not
-guess if it cannot make a decision. It also uses the “fancy” shell by default,
-unless you explicitly set the environment variable ``PIPENV_SHELL_FANCY`` to an
-empty string.
+guess if it cannot make a decision. It also only uses the “fancy” shell, no
+matter what platform you’re on, and whether you set the environment variable
+``PIPENV_SHELL_FANCY`` or not.
 
 ``where`` works as a combination of ``pipenv --where`` and ``pipenv --venv``.
 

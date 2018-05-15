@@ -67,9 +67,10 @@ def uninstall(**kwargs):
     },
 )
 @click.option('--anyway', is_flag=True, default=False)
-@click.argument('shell_args', nargs=-1)
+@click.argument('args', nargs=-1)
 def shell(**kwargs):
-    raise NotImplementedError('TODO')
+    from .operations.shell import shell
+    shell(**kwargs)
 
 
 @cli.command(short_help="Outputs project and environment information.")

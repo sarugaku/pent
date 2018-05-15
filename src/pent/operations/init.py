@@ -5,7 +5,7 @@ import sys
 import click
 import virtualenv
 
-from pent import _pipenv, checks
+from pent import _pipenv, checks, envs
 
 
 def _supports_venv(executable):
@@ -18,30 +18,20 @@ def _supports_venv(executable):
     return False
 
 
-POSSIBLE_ENV_PYTHON = [
-    pathlib.Path('bin', 'python'),
-    pathlib.Path('Scripts', 'python.exe'),
-]
-
-
 def _fix_activate_this(venv):
     """Pipenv relies on activate_this.py, but venv does not have this file.
 
     Fortunately virtualenv's version "just works", so let's grab it.
     """
-    for path in POSSIBLE_ENV_PYTHON:
-        full_path = venv.joinpath(path)
-        if full_path.is_file():
-            activate_this = full_path.with_name('activate_this.py')
-            click.echo(f'Writing {activate_this}')
-            activate_this.write_text(virtualenv.ACTIVATE_THIS)
+    for python in envs.iter_python(venv):
+        activate_this = python.with_name('activate_this.py')
+        click.echo(f'Writing {activate_this}')
+        activate_this.write_text(virtualenv.ACTIVATE_THIS)
 
 
 def _find_venv_python(venv):
-    for path in POSSIBLE_ENV_PYTHON:
-        full_path = venv.joinpath(path)
-        if full_path.is_file():
-            return full_path
+    for python in envs.iter_python(venv):
+        return python
     raise ValueError(f'no python found in environment')
 
 

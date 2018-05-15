@@ -30,7 +30,7 @@ def venv_required(f):
         if not pipfile_path.is_file():
             click.echo('Pipfile not found! You need to run "pent new" first.')
             click.get_current_context().exit(1)
-        if not pipfile_path.with_name('.venv').is_dir():
+        if not _pipenv.get_venv_path().is_dir():
             click.echo(
                 'Virtual environment not found! '
                 'You need to run "pent init" first.',
