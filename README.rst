@@ -18,8 +18,10 @@ Pipenv brings order to the chaotic Python project management ecosystem, which
 is wonderful. With the ecosystem being so chaotic, however, everyone comes to
 Pipenv with their own set of management rules, and it is impossible to satisfy
 everyone. It is good to be opinionated, but we can agree to acknowledge we have
-different preferences, as long as the underlying tooling stay compatible. These
-are my preferences.
+different preferences, as long as the underlying tooling stay compatible. I
+want to demostrate how easy it is to put together an alternative solution.
+Consider doing the same if you don’t like Pipenv’s preferences, instead of
+trying to convince people to have the same preferences as you do.
 
 As an official PyPA project, Pipenv also is required to be more conservative
 when it comes to tradeoffs. It still uses virtualenv (as of May 2018), a proven
@@ -63,10 +65,8 @@ Pipfile.lock, ``install``/``uninstall`` to add/remove packages.
 Pent adds two aliases, ``add`` and ``remove``, because I think the naming makes
 more sense. They work exactly the same as ``install`` and ``uninstall``.
 
-Note that ``install`` without arguments does not work in Pent. Use ``lock``
-and  ``sync`` instead.
-
-``update`` is removed. Use ``lock`` and  ``sync`` instead.
+Note that ``install`` without arguments does not work, and ``update`` is
+removed in Pent. Use ``lock`` and  ``sync`` instead.
 
 Other commands
 --------------
