@@ -74,11 +74,11 @@ Other commands
 ``run``, ``check``, ``graph``, and ``clean`` are identical to their Pipenv
 counterparts (Pent simply calls them).
 
-``shell`` works a little better than Pipenv’s because Pent try to detect your
-current shell instead of depending on the ``SHELL`` variable, and does not
-guess if it cannot make a decision. It also only uses the “fancy” shell, no
-matter what platform you’re on, and whether you set the environment variable
-``PIPENV_SHELL_FANCY`` or not.
+``shell`` works a little better than Pipenv’s because Pent detects your
+currently-running shell, instead of depending on the ``SHELL`` environment
+variable, and does not guess if it cannot make a decision. It also only uses
+the “fancy” shell, no matter what platform you’re on, and whether you set the
+environment variable ``PIPENV_SHELL_FANCY`` or not.
 
 ``where`` works as a combination of ``pipenv --where`` and ``pipenv --venv``.
 

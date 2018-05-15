@@ -32,7 +32,9 @@ def init(**kwargs):
     init(**kwargs)
 
 
-@cli.command(short_help="Resolves dependencies from Pipfile into Pipfile.lock")
+@cli.command(
+    short_help="Resolves dependencies from Pipfile into Pipfile.lock.",
+)
 @click.option('--clear', is_flag=True, default=False)
 @click.option('--pre', is_flag=True, default=False)
 @click.option('--keep-outdated', is_flag=True, default=False)
