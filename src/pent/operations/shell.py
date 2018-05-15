@@ -17,7 +17,7 @@ def _handover(cmd, args):
         os.execvp(cmd, args)
     else:
         proc = subprocess.run(args, shell=True, universal_newlines=True)
-        click.get_current_context().exit(proc.return_code)
+        click.get_current_context().exit(proc.returncode)
 
 
 class Shell:
