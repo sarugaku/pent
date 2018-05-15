@@ -26,11 +26,11 @@ def _get_process_mapping():
     processes = {}
     for line in output.split('\n'):
         try:
-            pid, ppid, args = line.split(' ', 2)
+            pid, ppid, args = line.strip().split(maxsplit=2)
         except ValueError:
             continue
-        processes[int(pid)] = Process(
-            args=tuple(shlex.split(args)), pid=int(pid), ppid=int(ppid),
+        processes[pid] = Process(
+            args=tuple(shlex.split(args)), pid=pid, ppid=ppid,
         )
     return processes
 
@@ -38,8 +38,7 @@ def _get_process_mapping():
 def get_shell(pid=None, max_depth=6):
     """Get the shell that the supplied pid or os.getpid() is running in.
     """
-    if not pid:
-        pid = os.getpid()
+    pid = str(pid or os.getpid())
     mapping = _get_process_mapping()
     login_shell = os.environ.get('SHELL', '')
     for _ in range(max_depth):
