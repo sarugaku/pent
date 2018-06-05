@@ -62,11 +62,12 @@ This part is the same as Pipenv. Call ``lock`` to resolve Pipfile’s
 specifications into Pipfile.lock, ``sync`` to install dependencies from
 Pipfile.lock, ``install``/``uninstall`` to add/remove packages.
 
-Pent adds two aliases, ``add`` and ``remove``, because I think the naming makes
-more sense. They work exactly the same as ``install`` and ``uninstall``.
+Pent uses ``add`` and ``remove`` to manage package addition and removal,
+inspired by Yarn. I think this naming makes more sense. They are also more
+deterministic—they work exactly the same as editing Pipfile and running
+``sync`` yourself.
 
-Note that ``install`` without arguments does not work, and ``update`` is
-removed in Pent. Use ``lock`` and  ``sync`` instead.
+Note that there is not ``update`` in Pent. Use ``lock`` and  ``sync`` instead.
 
 Other commands
 --------------

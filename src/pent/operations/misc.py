@@ -38,8 +38,3 @@ def graph(**kwargs):
 @checks.venv_required
 def clean(**kwargs):
     _pipenv.core.do_clean(click.get_current_context(), **kwargs)
-
-
-@checks.venv_required
-def clean(**kwargs):
-    _pipenv.core.do_clean(click.get_current_context(), **kwargs)

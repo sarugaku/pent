@@ -2,7 +2,7 @@ import pathlib
 
 import click
 
-from ._click import AliasedGroup, ExecutablePath
+from ._click import AliasedGroup, PythonExecutablePath
 
 
 @click.group(cls=AliasedGroup)
@@ -23,7 +23,7 @@ def new():
 @cli.command(short_help="Initializes a virtual environment for this project.")
 @click.option(
     '--python', required=True,
-    type=ExecutablePath(resolve_path=True),
+    type=PythonExecutablePath(resolve_path=True),
 )
 @click.option('--clear', is_flag=True, default=False)
 @click.option('--prompt', default=None)
@@ -44,20 +44,23 @@ def lock(**kwargs):
 
 
 @cli.command(
-    short_help="Installs provided packages and adds them to Pipfile.",
+    short_help="Adds provided packages to Pipfile, and sync the environment.",
     context_settings={
         'ignore_unknown_options': True,
         'allow_extra_args': True,
     },
 )
-def install(**kwargs):
+@click.argument('packages', 'package_args', nargs=-1)
+@click.option('--dev/--default')
+@click.option('--no-sync', is_flag=True, default=False)
+def add(**kwargs):
     raise NotImplementedError('TODO')
 
 
 @cli.command(
     short_help="Uninstalls provided packages and removes them from Pipfile.",
 )
-def uninstall(**kwargs):
+def remove(**kwargs):
     raise NotImplementedError('TODO')
 
 
