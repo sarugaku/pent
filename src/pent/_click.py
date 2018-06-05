@@ -44,15 +44,3 @@ class PythonExecutablePath(click.Path):
             if path:
                 val = str(path.resolve())
         return super().convert(val, param, ctx)
-
-
-class AliasedGroup(click.Group):
-
-    aliases = {
-        'add': 'install',
-        'remove': 'uninstall',
-    }
-
-    def get_command(self, ctx, cmd_name):
-        cmd_name = self.aliases.get(cmd_name, cmd_name)
-        return super().get_command(ctx, cmd_name)

@@ -2,10 +2,10 @@ import pathlib
 
 import click
 
-from ._click import AliasedGroup, PythonExecutablePath
+from ._click import PythonExecutablePath
 
 
-@click.group(cls=AliasedGroup)
+@click.group()
 def cli():
     pass
 
