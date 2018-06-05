@@ -6,12 +6,9 @@ import click
 import pythonfinder
 
 
-PYTHON_VERSION_PATTERN = re.compile(r'^(\d+)(?:\.(\d+))?$')
-
-
-def find_by_version(major, minor):
+def find_by_version(val):
     finder = pythonfinder.Finder()
-    return finder.find_python_version(major, minor)
+    return finder.find_python_version(val)
 
 
 def find_in_system_path(val):
@@ -36,13 +33,9 @@ class PythonExecutablePath(click.Path):
         super().__init__(exists=True, dir_okay=False, file_okay=True, **kwargs)
 
     def convert(self, val, param, ctx):
-        match = PYTHON_VERSION_PATTERN.match(val)
-        if match:
+        if re.match(r'^(\d+)(?:\.(\d+))?$', val):
             # This looks like a Python version. Try to find it.
-            entry = find_by_version(*(
-                int(c) if c else None
-                for c in match.groups()
-            ))
+            entry = find_by_version(val)
             if entry and entry.path:
                 val = str(entry.path.resolve())
         if 'PATH' in os.environ and os.path.sep not in val and '/' not in val:
