@@ -9,7 +9,7 @@ import pathlib
 # Hack to work around Pipenv's annoying import-time side effect of changing
 # the current working directory to the project root.
 cwd = os.getcwd()
-from pipenv import core, utils
+from pipenv import core, shells, utils  # noqa
 os.chdir(cwd)
 
 

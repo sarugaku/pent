@@ -3,7 +3,6 @@ import subprocess
 import sys
 
 import click
-import virtualenv
 
 from pent import _pipenv, checks, envs
 
@@ -11,22 +10,11 @@ from pent import _pipenv, checks, envs
 def _supports_venv(executable):
     version = _pipenv.get_python_version(executable)
     major, minor, _ = version.split('.', 2)
-    major = int(major)
-    minor = int(minor)
-    if major > 3 or major == 3 and minor >= 4:
+
+    # venv is only usable after 3.6, with --prompt added.
+    if (int(major), int(minor)) >= (3, 6):
         return True
     return False
-
-
-def _fix_activate_this(venv):
-    """Pipenv relies on activate_this.py, but venv does not have this file.
-
-    Fortunately virtualenv's version "just works", so let's grab it.
-    """
-    for python in envs.iter_python(venv):
-        activate_this = python.with_name('activate_this.py')
-        click.echo(f'Writing {activate_this}')
-        activate_this.write_text(virtualenv.ACTIVATE_THIS)
 
 
 def _find_venv_python(venv):
@@ -58,7 +46,6 @@ def init(python, prompt, clear):
 
     if uses_venv:
         subprocess.check_call([python, '-m', 'venv'] + args)
-        _fix_activate_this(venv_path)
     else:
         subprocess.check_call([
             sys.executable, '-m', 'virtualenv',

@@ -16,8 +16,7 @@ def lock(**kwargs):
 
 @checks.venv_required
 def sync(**kwargs):
-    # HACK: The second argument is not meaningful. It is a Pipenv bug.
-    _pipenv.core.do_sync(click.get_current_context(), None, **kwargs)
+    _pipenv.core.do_sync(click.get_current_context(), **kwargs)
 
 
 @checks.venv_required
