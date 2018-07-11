@@ -2,10 +2,14 @@ import pathlib
 
 import click
 
+from . import __version__
 from ._click import PythonExecutablePath
 
 
 @click.group()
+@click.version_option(
+    version=__version__, prog_name='Pent', message='%(prog)s %(version)s',
+)
 def cli():
     pass
 
